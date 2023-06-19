@@ -1,0 +1,41 @@
+version: '2.1'
+services:
+  configserver:
+    image: stock/configserver:0.0.1-SNAPSHOT
+    container_name: configserver
+    ports:
+      - "8071:8071"
+    environment:
+      ENCRYPT_KEY: "dnflsmsrkdqkrrhkssuadlek"
+    networks:
+      backend:
+        aliases:
+          - "configserver"
+  eurekaserver:
+    image: stock/eurekaserver:0.0.1-SNAPSHOT
+    ports:
+      - "8070:8070"
+    depends_on:
+      configserver:
+        condition: service_started
+    networks:
+      backend:
+        aliases:
+          - "eurekaserver"
+  scrape:
+    image: stock/scrape:0.0.1-SNAPSHOT
+    environment:
+      PROFILE: "dev"
+      CONFIGSERVER_URI: "http://configserver:8071"
+      CONFIGSERVER_PORT: "8071"
+      ENCRYPT_KEY: "dnflsmsrkdqkrrhkssuadlek"
+    ports:
+      - "8080:8080"
+    networks:
+      - backend
+    depends_on:
+      configserver:
+        condition: service_started
+networks:
+  backend:
+    driver: bridge
