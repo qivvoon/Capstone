@@ -1,0 +1,33 @@
+input {
+    file {
+        path => "/Users/gangjiwon/data_stock.csv"
+        start_position => "beginning"
+        #sincedb_path => "/dev/null"
+    }
+}
+
+filter {
+    csv {
+        separator => ","
+        columns => ["종목명", "종목코드", "거래량", "등락률", "액면가", "상장주식수", "PER", "ROE"]
+    }
+    if [PER] =~ "PER"{
+        drop {}
+    }
+    if [PER] == "NA" {
+        drop {}
+    }
+    if [ROE] == "NA" {
+        drop {}
+    }
+    if [액면가] == "0" {
+        drop {}
+    }
+
+
+output {
+    stdout {}
+    elasticsearch {
+        index => "data"
+    }
+}
