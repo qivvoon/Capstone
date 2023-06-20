@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>STOCK ANALYSIS</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+</head>
+<body>
+    <h1>Welcome! This is Stock Data Analysis Service :)</h1>
+    <div>
+        <form action="/index">
+            <div id="product-div">
+                <div id="product-explain-span">
+                    <span>✔︎ 주가조작 위험 여부를 알고 싶은 종목명을 입력하세요.</span>
+                </div>
+                <input type="text" name="product">
+                <button type="submit">Click!</button>
+            </div>
+        </form>
+    </div>
+    <div id="result-div">
+        ---------------------------------------------------
+    </div>
+    <div id="result-div">
+        {{result}}
+    </div>
+</body>
+</html>
